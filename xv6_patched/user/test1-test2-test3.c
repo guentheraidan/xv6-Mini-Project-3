@@ -1,5 +1,3 @@
-// test3 is commented out
-
 #include "types.h"
 #include "user.h"
 #include "fcntl.h"
@@ -15,14 +13,14 @@
 // Function prototypes
 int null(int);
 int null2(int);
-// int bounds(int);
+int bounds(int);
 
 int main()
 {
 	int p = getpid();
 	null(p);
 	null2(p);
-	// bounds(p);
+	bounds(p);
 	exit();
 }
 
@@ -77,22 +75,22 @@ int null2(int p)
 	return 0;
 }
 
-// // Ensure syscall arg checks null page
-// int bounds(int p)
-// {
-// 	char *arg;
-// 	int fd = open("tmp", O_WRONLY|O_CREATE);
-// 	assert(fd != -1);
-// 	// at zero
-// 	arg = (char*) 0x0;
-// 	assert(write(fd, arg, 10) == -1);
-// 	// within null page
-// 	arg = (char*) 0x400;
-// 	assert(write(fd, arg, 1024) == -1);
-// 	// spanning null page and code
-// 	arg = (char*) 0xfff;
-// 	assert(write(fd, arg, 2) == -1);
-// 	printf(1, "TEST PASSED!\n");
-// 	return 0;
-// }
+// Ensure syscall arg checks null page
+int bounds(int p)
+{
+	char *arg;
+	int fd = open("tmp", O_WRONLY|O_CREATE);
+	assert(fd != -1);
+	// at zero
+	arg = (char*) 0x0;
+	assert(write(fd, arg, 10) == -1);
+	// within null page
+	arg = (char*) 0x400;
+	assert(write(fd, arg, 1024) == -1);
+	// spanning null page and code
+	arg = (char*) 0xfff;
+	assert(write(fd, arg, 2) == -1);
+	printf(1, "TEST PASSED!\n");
+	return 0;
+}
 

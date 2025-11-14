@@ -120,9 +120,10 @@ bootother: kernel/bootother.o
 		--output=kernel/bootother.out kernel/bootother.o
 	$(OBJCOPY) -S -O binary kernel/bootother.out $@
 
+# Changed to compile at 0x1000 instead of 0x0
 initcode: kernel/initcode.o
 	$(LD) $(LDFLAGS) $(KERNEL_LDFLAGS) \
-		--entry=start --section-start=.text=0x0 \
+		--entry=start --section-start=.text=0x1000 \
 		--output=kernel/initcode.out kernel/initcode.o
 	$(OBJCOPY) -S -O binary kernel/initcode.out $@
 
