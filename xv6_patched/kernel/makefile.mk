@@ -110,7 +110,9 @@ kernel/bootblock: kernel/bootasm.o kernel/bootmain.o
 		--entry=start --section-start=.text=0x7C00 \
 		--output=kernel/bootblock.out kernel/bootasm.o kernel/bootmain.o
 	$(OBJCOPY) -S -O binary -j .text kernel/bootblock.out kernel/bootblock
-	./kernel/sign.pl kernel/bootblock
+# 	./kernel/sign.pl kernel/bootblock
+# Fix for "make: ./kernel/sign.pl: Command not found" error
+	perl ./kernel/sign.pl kernel/bootblock
 
 bootother: kernel/bootother.o
 	$(LD) $(LDFLAGS) $(KERNEL_LDFLAGS) \
