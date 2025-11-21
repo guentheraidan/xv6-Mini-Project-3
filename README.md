@@ -1,2 +1,2 @@
 # xv6-Mini-Project-3
-Fresh version of xv6 separate from the work done on previous projects.
+The goal of this project is to implement null page protection in xv6. This will ultimately ensure null pointer references are caught, making debugging simpler.
