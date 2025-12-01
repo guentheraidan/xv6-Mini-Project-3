@@ -1,0 +1,325 @@
+0:00:00.400,0:00:08.320
+This is mini project 3 for xv6 in operating system concepts. Our instructor is Dr.
+
+0:00:08.320,0:00:15.840
+Luis G. Jaimes. This is a project done for his class at Florida Polytechnic University.
+
+0:00:15.840,0:00:20.960
+The contributor to this project are Nathan Cader (He wrote the report.)
+
+0:00:20.960,0:00:26.640
+Benjamin Voor (that's me. I'm making the video right now). Aiden Guenther (he took care of parts
+
+0:00:26.640,0:00:33.520
+one and two). and Khalee Johnson (who did part three). I wish we all could have written code but it
+
+0:00:33.520,0:00:40.080
+was a pretty small project actually compared to at least the first two. This project extends the XV6
+
+0:00:40.080,0:00:44.960
+operating system to correctly handle null pointer dereferences. In the original XV6, the first page
+
+0:00:44.960,0:00:51.840
+of memory is mapped and accessible which means that 
+address hexadecimal zero does not trap as expected.
+
+0:00:51.840,0:00:58.000
+Modern operating systems always map the first page invalid to prevent this behavior.
+
+0:00:58.000,0:01:04.480
+The objective of this project is to modify xv6 so that the null null page is always unmapped. Any
+
+0:01:04.480,0:01:10.160
+attempts to dereference the null pointer results in a trap and process termination and system
+
+0:01:10.160,0:01:15.120
+calls properly validate user pointers before accessing them. These changes are verified using
+
+0:01:15.120,0:01:17.317
+the provided test program test1-test2-test3.c, provided by said instructor Luis Jaimes
+
+0:01:17.317,0:01:33.680
+for 2025 fall semester. So to set up I'm going just show you my directory here. I'm in mini project 3
+
+0:01:33.680,0:01:39.440
+xv6_patched. So now you can see that all the files are here. All the files that you can see here.
+
+0:01:39.440,0:01:48.240
+I've already made Qemu just to have that up and running. Not running, but up. Not up, but made, so
+
+0:01:48.240,0:01:58.080
+that you don't have to load it up. You don't have to make clean and then load it and wait for that.
+
+0:01:58.080,0:02:04.800
+So if I go to the kernel make file, you can see where Aiden was uh unable to use Pearl.
+
+0:02:04.800,0:02:11.280
+So you add Pearl in and you're now able to 
+use Pearl. It's kind of outside the project,
+
+0:02:11.280,0:02:19.920
+but I kind of just kind of wanted to 
+mention it. This is one of the things he changed.
+
+0:02:19.920,0:02:24.640
+If you look here, we added test1-test2-test3 to the
+
+0:02:24.640,0:02:33.600
+one of the commands that you can 
+do as a user. So now this is going to
+
+0:02:33.600,0:02:42.560
+*yawn* show up when you hit "ls" and it's going to be one of the things that you can type and use.
+
+0:02:42.560,0:02:54.000
+Um, so preview make it. I've already made it. So this is going to be a very short loading sequence.
+
+0:02:54.000,0:02:59.040
+As you can see, "ls" it pops up. Uh, and I can even run it. You
+
+0:02:59.040,0:03:02.880
+can see the output here. You can 
+see that all three tests pass. Oh,
+
+0:03:02.880,0:03:07.440
+that's a null dereference. You can't do that. Kill the process. Test passed. Same thing.
+
+0:03:07.440,0:03:18.240
+Bad reference. Kill the process. Test pass. Test case three. Test pass. Control A X
+
+0:03:18.240,0:03:31.440
+first is kernel/exec.c. We're going to change size from zero to page size. And what
+
+0:03:31.440,0:03:36.320
+that's going to do is going to leave the first page unmapped and we're going to protect that
+
+0:03:36.320,0:03:43.040
+zone -- zones 0 to 4095 -- And if you try to access that, we're going to cause a page
+
+0:03:43.040,0:03:52.000
+fault and kill the process. Uh, and this is 
+going to catch null pointer bugs immediately.
+
+0:03:52.000,0:04:00.160
+In the both make files, the user make file and
+
+0:04:00.160,0:04:05.200
+kernel make file. We're going to change 
+the memory location to 0x1000. Um,
+
+0:04:05.200,0:04:16.880
+so 0x1000. Sorry, hang on. Sorry about that. I was saying goodbye to Thanksgiving family.
+
+0:04:16.880,0:04:21.920
+I-It's pretty late at night. So, where was 
+I? That's right. I'm in user make file. So,
+
+0:04:21.920,0:04:30.880
+user make file -- go to line 77. I'm going to change this section from starting
+
+0:04:30.880,0:04:39.200
+at zero to starting at the zeroth
+
+0:04:39.200,0:04:48.160
+page to starting at the first page. I hate saying that
+
+0:04:48.160,0:04:52.160
+I'm not going to say zeroth. I 
+hate that. I don't like saying zeroth.
+
+0:04:52.160,0:04:58.560
+We're going to go from starting at the 
+first page to starting at the second page
+
+0:04:58.560,0:05:01.440
+So the linker 
+must know where the code will run so
+
+0:05:01.440,0:05:05.120
+it can generate the correct addresses 
+for jumps and function calls. Since
+
+0:05:05.120,0:05:15.920
+kernel/exec.c loads user programs at 0x1000, the linker must compile them for 0x1000.
+
+0:05:15.920,0:05:21.040
+Otherwise wrong addresses will result in a crash.
+
+0:05:22.000,0:05:35.840
+So --entry=start --section-start=.text=0x1000
+
+0:05:35.840,0:05:42.480
+If I go over to proc.c here, we're going 
+to have, like, three things here. So I might
+
+0:05:42.480,0:05:52.960
+as well just scroll down. So "P" being proc --
+
+0:05:52.960,0:05:59.680
+-- its size is going to be two times 
+4096. So PAGE_SIZE, that's a constant, and it's going
+
+0:05:59.680,0:06:07.280
+to be 4096. So we're going to go double 4096 
+because the process's address space now spans
+
+0:06:07.280,0:06:16.240
+from zero to 0x2000, even though the first page 
+is unmapped. If I were to go down here to line 94,
+
+0:06:16.240,0:06:20.800
+same thing! We're going to change the 
+the stack pointer to double the page
+
+0:06:20.800,0:06:24.400
+size so that the stack has room to 
+grow downwards from the top of the
+
+0:06:24.400,0:06:29.600
+memory. And what else are we going to do 
+in this file? We're going to change the
+
+0:06:29.600,0:06:38.080
+instruction pointer. So at line 95, we're going to 
+change the instruction pointer to start at
+
+0:06:38.080,0:06:43.520
+start at zero -- to start at 
+page size. Why can I not select text
+
+0:06:43.520,0:06:48.320
+with the keyboard in Vim? I can only do it on my mouse. So beginning of initcode.S, change
+
+0:06:48.320,0:07:06.000
+from zero to page size. All right. So Now we're going to go into kernel/vm.C.
+
+0:07:06.000,0:07:10.880
+Here, we were starting 
+at zero but now we're starting at
+
+0:07:10.880,0:07:22.000
+PAGE_SIZE to map the second page rather than the 
+first page -- the null page -- to physical memory.
+
+0:07:22.000,0:07:28.240
+Um
+
+0:07:28.240,0:07:35.760
+same file, different line: 309. this "i=..."
+initialization is going to change from zero to
+
+0:07:35.760,0:07:42.080
+page size so the "Copyuvm" function copies from the second page. This IS copyuvm. So this is the function
+
+0:07:42.080,0:07:47.840
+is we're going to change this function to copy 
+from the second page instead of the first page.
+
+0:07:47.840,0:07:58.640
+Um this ensures that child processes only copy 
+the parents memory excluding the null page.
+
+0:08:00.320,0:08:04.720
+This is the test case three. So this is going to 
+be the part that khalee did in fetch int method. We
+
+0:08:04.720,0:08:12.240
+don't want to extend outside of the stack into the 
+code of the program. So kernel just call right. So
+
+0:08:12.240,0:08:19.680
+we got a process greater than one or lesser than 
+4096. So this mean the first page we're going to
+
+0:08:19.680,0:08:25.760
+return negative one. We don't want that. We're 
+going to trap that. So this is line 22 for fetch
+
+0:08:25.760,0:08:32.560
+int and then fetch string. We're going to do 
+the same thing on line 39. 39. Sorry, it's 39's
+
+0:08:32.560,0:08:42.640
+a meme. Um, we're going to do the first page. Uh, 
+if it's there, we're going to return negative one.
+
+0:08:42.640,0:08:49.200
+So, the problem is that the addresses inside the 
+first four kilobytes, 4 kilobytes, 4096* 1,000,
+
+0:08:49.200,0:08:56.640
+no four times 1024 -- less than 4 kilobytes -- are never 
+valid user data. Real programs don't keep data
+
+0:08:56.640,0:09:10.080
+there. The OS intentionally marks it invalid. The 
+program fixes this by stopping bad pointers (cases a and b) before Xv6 ever dereferences them. You go 
+to argptr function. I think it's the same.
+
+0:09:10.080,0:09:20.000
+I think it's the same...
+
+0:09:20.000,0:09:31.440
+logic. We're just casting int i as an unsigned integer
+
+0:09:31.440,0:09:36.800
+and we're saying if it's lesser than 4096 or is 
+greater than equal to USERTOP we're going to
+
+0:09:36.800,0:09:42.880
+return negative one. Um so this line 70 marks the 
+boundary between legal user memory and the code or
+
+0:09:42.880,0:09:47.040
+kernel region. If the pointer touches that boundary 
+it means it points into the code segment where it
+
+0:09:47.040,0:09:51.120
+size might spill into it. The third bad pointer 
+starts inside valid stack memory but its length
+
+0:09:51.120,0:10:00.480
+goes past the legal range. The program fixes this 
+by checking blocks the entire scenario. Um PS
+
+0:10:00.480,0:10:08.080
+USERTOP is declared on 
+line 15 in include/param.h
+
+0:10:08.080,0:10:18.640
+as 655,360 or in hexadecimal it's 
+0xA0000. That's the end of the user
+
+0:10:18.640,0:10:28.560
+space. What did I do? I did not mean to do 
+that. I'm think I'm thinking I did control X
+
+0:10:28.560,0:10:35.520
+because I'm used to Qemu. Control A, X. 
+That's not that's not the correct one.
+
+0:10:36.800,0:10:43.680
+Um yeah testing cases we're going to 
+uncomment bounds.
+
+0:10:43.680,0:10:53.360
+Let me see the conclusion here. 
+This project required modifying XV6 to invalidate
+
+0:10:53.360,0:11:02.800
+the null page, update memory layout loading logic and strengthen...
+
+0:11:02.800,0:11:06.800
+that's grammatically incorrect! and 
+STRENGTHENING pointer validation
+
+0:11:06.800,0:11:10.320
+inside system calls. With these changes, Xv6 works like a modern OS when there's
+
+0:11:10.320,0:11:14.720
+null pointer dereferences and incorrect 
+syscall pointers all three test
+
+0:11:14.720,0:11:21.760
+cases from the provided test program 
+were successfully passed, passed, passed. Have a good day!
