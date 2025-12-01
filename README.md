@@ -40,3 +40,14 @@ VIDEO Project descriptions by Dr. Remzi H. Arpaci-Dusseau (Book author) : "Discu
 The Xv6 OS is also freely available online, credits to MIT. Here is a link to Arpaci-Dusseau's installation instructions: https://www.github.com/remzi-arpacidusseau/ostep-projects/blob/master/INSTALL-xv6.md/
 
 No license is provided. We fall under fair use in the USA, as this is for educational purposes at Florida Polytechnic University.
+
+# Group members only
+Be warned, these OneDrive links will expire in 2026. After that, DM me at [my LinkedIn](www.linkedin.com/in/benjamin-voor-31a270204)
+
+OneDrive link to download the .mp4:
+
+https://flpoly-my.sharepoint.com/:v:/g/personal/bvoor3475_floridapoly_edu/ETeZ6qFr8vNFh0_wps4CZ_ABaRnOvrIIqPCtXohQINIU4w?e=s0rbMf
+
+OneDrive link to download the subtitles (made by editing YouTube's auto-generated subtitles): 
+
+https://flpoly-my.sharepoint.com/:u:/g/personal/bvoor3475_floridapoly_edu/EVFWz2WYKuhJh1WiyMFt_noBcYw_XWuRFEbhucFhTMf1jQ?e=vbFhOg
